@@ -1,7 +1,12 @@
-import { configureStore, createStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import { createStore, ThunkAction, Action, applyMiddleware } from '@reduxjs/toolkit';
 import { composeWithDevTools } from 'redux-devtools-extension';
-//import counterReducer from '../features/counter/counterSlice';
 import allReducers from './reducers';
+
+import thunkMiddleware  from 'redux-thunk'
+
+const addMiddleware = applyMiddleware(thunkMiddleware);
+
+
 
 // export const store = configureStore({
 //   reducer: {
@@ -11,7 +16,7 @@ import allReducers from './reducers';
 
 export const store = createStore(
   allReducers,
-  composeWithDevTools()
+  composeWithDevTools(addMiddleware)
 );
 
 export type RootState = ReturnType<typeof store.getState>;

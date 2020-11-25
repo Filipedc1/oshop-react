@@ -1,33 +1,32 @@
 import axios from 'axios';
 
-export const login = (user:any) => {
+// export const login = (user:any) => {
+//     return {
+//         type: 'LOGIN',
+//         payload: {
+//             Username: user.username,
+//             Password: user.password
+//         }
+//     }
+// }
+
+export const login = () => {
     return {
         type: 'LOGIN',
-        payload: {
-            Username: user.username,
-            Password: user.password
-        }
     }
 }
 
-// export const loginAsync = () => {
-//     return (dispatch: any) => {
-//         dispatch(login())
-//         axios.post('https://localhost:44356/api/user/login', {
-//                UserName: 'Fred',
-//                Password: 'Flintstone'
-//             })
-//             .then(function (response) {
-//                 console.log(response);
-//                 console.log(response.data);
-//                 dispatch(loginSuccess(response.data))
-//             })
-//             .catch(function (error) {
-//                 console.log(error);
-//                 dispatch(loginFailure(error.message))
-//             });
-//     }
-// }
+export const loginAsync = (user: any) => {
+    return async (dispatch: any) => {
+        try {
+            dispatch(login());
+            const response = await axios.post('https://localhost:44356/api/user/login', user);
+            dispatch(loginSuccess(response.data))
+        } catch (error) {
+            dispatch(loginFailure(error.message))
+        }
+    }
+}
 
 export const loginSuccess = (user: any) => {
     return {

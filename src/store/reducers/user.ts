@@ -1,7 +1,6 @@
 import initialUserState from '../state/user';
 
 const userReducer = (state = initialUserState, action: any) => {
-    console.log(action);
     switch (action.type) {
         case 'LOGIN':
             return {
@@ -12,8 +11,8 @@ const userReducer = (state = initialUserState, action: any) => {
             return {
                 loading: false,
                 isLoggedIn: true,
-                userName: action.payload.Username,
-                isAdmin: action.payload.IsAdmin,
+                userName: action.payload.username,
+                isAdmin: action.payload.isAdmin,
                 error: false,
                 errorMsg: null
             }
@@ -27,7 +26,14 @@ const userReducer = (state = initialUserState, action: any) => {
                 errorMsg: action.payload
             }
         case 'LOGOUT':
-            return state;
+            return {
+                loading: false,
+                isLoggedIn: false,
+                userName: null,
+                isAdmin: false,
+                error: false,
+                errorMsg: null
+            }
         default:
             return state;
 
