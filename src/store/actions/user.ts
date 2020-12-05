@@ -1,14 +1,5 @@
-import axios from 'axios';
 
-// export const login = (user:any) => {
-//     return {
-//         type: 'LOGIN',
-//         payload: {
-//             Username: user.username,
-//             Password: user.password
-//         }
-//     }
-// }
+import { AuthService } from "../../services/auth";
 
 export const login = () => {
     return {
@@ -16,14 +7,18 @@ export const login = () => {
     }
 }
 
-export const loginAsync = (user: any) => {
+export const loginAsync = (user: any, history: any) => {
     return async (dispatch: any) => {
         try {
             dispatch(login());
-            const response = await axios.post('https://localhost:44356/api/user/login', user);
-            dispatch(loginSuccess(response.data))
+
+            const response = await new AuthService().loginAsync(user);
+
+            dispatch(loginSuccess(response));
+            history.push('/'); //redirect to home page
         } catch (error) {
-            dispatch(loginFailure(error.message))
+            dispatch(loginFailure(error.message));          
+            // how to show errors on login screen?
         }
     }
 }
@@ -39,6 +34,39 @@ export const loginFailure = (error: any) => {
     return {
         type: 'LOGIN_FAILURE',
         payload: error
+    }
+}
+
+export const isAuthenticated = () => {
+    return (dispatch: any) => {
+        dispatch(isLoggedIn());
+
+        const response = new AuthService().isLoggedIn();
+        if (response){
+            dispatch(isLoggedInTrue(response));
+        }
+        else {
+            dispatch(isLoggedInFalse());       
+        }
+    }
+}
+
+export const isLoggedIn = () => {
+    return {
+        type: 'IS_LOGGED_IN',
+    }
+}
+
+export const isLoggedInTrue = (user: any) => {
+    return {
+        type: 'IS_LOGGED_IN_TRUE',
+        payload: user
+    }
+}
+
+export const isLoggedInFalse = () => {
+    return {
+        type: 'IS_LOGGED_IN_FALSE',
     }
 }
 
