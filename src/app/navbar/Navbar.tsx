@@ -5,7 +5,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 import { connect } from 'react-redux';
 
-import { isAuthenticated } from '../../store/actions/user'
+import { isAuthenticated, logout } from '../../store/actions/user'
 
 function Navbar(props: any) {
 
@@ -13,9 +13,13 @@ function Navbar(props: any) {
         props.isLoggedIn();  
     }, []);
 
+    function logOut() {
+        props.logout();
+    }
+
     return (
         <NavBar bg="dark" variant="dark" expand="lg">
-            <NavBar.Brand href="#home">oShop</NavBar.Brand>
+            <NavBar.Brand className="ml-5" href="#home">oShop</NavBar.Brand>
             <NavBar.Toggle aria-controls="basic-navbar-nav" />
             <NavBar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
@@ -35,7 +39,7 @@ function Navbar(props: any) {
                              </>
                             }
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">Logout</NavDropdown.Item>
+                            <NavDropdown.Item href="/login" onClick={() => logOut()}>Logout</NavDropdown.Item>
                         </NavDropdown>
                     }
                 </Nav>
@@ -55,7 +59,10 @@ const mapDispatchToProps = (dispatch: any) => {
     return {
         isLoggedIn: () => {
             dispatch(isAuthenticated())
-        }
+        },
+        logout: () => {
+            dispatch(logout())
+        },
     }
 }
 

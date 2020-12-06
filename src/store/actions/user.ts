@@ -18,7 +18,6 @@ export const loginAsync = (user: any, history: any) => {
             history.push('/'); //redirect to home page
         } catch (error) {
             dispatch(loginFailure(error.message));          
-            // how to show errors on login screen?
         }
     }
 }
@@ -71,6 +70,13 @@ export const isLoggedInFalse = () => {
 }
 
 export const logout = () => {
+    return (dispatch: any) => {
+        dispatch(logOut());
+        new AuthService().logout();
+    }
+}
+
+export const logOut = () => {
     return {
         type: 'LOGOUT'
     }
