@@ -1,4 +1,4 @@
-import userReducer from './user';
+import userReducer from './auth';
 import { combineReducers } from 'redux';
 
 const allReducers = combineReducers({

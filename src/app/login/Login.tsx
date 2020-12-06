@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 
 import { connect } from 'react-redux';
 
-import { loginAsync } from '../../store/actions/user'
+import { loginAsync } from '../../store/actions/auth'
 
 function Login(props: any) {
     // local state variables called username and password. useState is a React Hook

@@ -5,7 +5,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 import { connect } from 'react-redux';
 
-import { isAuthenticated, logout } from '../../store/actions/user'
+import { isAuthenticated, logout } from '../../store/actions/auth'
 
 function Navbar(props: any) {
 
