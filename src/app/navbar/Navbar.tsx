@@ -49,7 +49,7 @@ function Navbar(props: any) {
 }
 
 // grab what we need from the state of our store, and maps it to this components props
-const mapStateToProps = (state:any) => {
+const mapStateToProps = (state: any) => {
     return {
         user: state.user
     }
