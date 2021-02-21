@@ -1,23 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import NumberFormat from 'react-number-format';
 
 import { getProductsAsync } from '../../store/actions/product'
 import { IProduct } from '../../interfaces/iproduct';
+import Product from '../product/Product';
+import ProductFilter from '../product-filter/ProductFilter';
 
 function Products(props: any) {
+    const [category, setCategory] = useState(0);
 
+    // tell React that your component needs to do something after render or after updating.
     useEffect(() => {
-      props.getProducts();  
-    }, []);
+      props.getProducts(category);  
+    }, [category]); // Only re-run the effect if category changes
+
+    function onCategoryClick(e: any) {
+      setCategory(e.target.id);     
+    }
 
     return (
       <div className="container mt-3">
         <div className="row">
           <div className="col-3">
-          
+            <ProductFilter onCategoryClick={onCategoryClick} />
           </div>
           <div className="col-9">
             {props.productData.loaded &&
@@ -25,18 +30,9 @@ function Products(props: any) {
                 <div className="row" >
                     {
                       props.productData.products.map((prod: IProduct) => {
-                        return(
+                        return (
                           <div className="col" key={prod.productId}>
-                            <Card className="mt-4" style={{ width: '20rem' }}>
-                            <Card.Img variant="top" src={prod.imageUrl} />
-                            <Card.Body>
-                              <Card.Title>{prod.name}</Card.Title>
-                              <Card.Text>
-                                <NumberFormat value={prod.price} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'$'} />
-                              </Card.Text>
-                              <Button variant="secondary">Add To Cart</Button>
-                            </Card.Body>
-                            </Card>
+                            <Product product={prod} />
                           </div>
                         )
                       })                     
@@ -59,8 +55,8 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-      getProducts: () => {
-          dispatch(getProductsAsync())
+      getProducts: (categoryId: number) => {
+          dispatch(getProductsAsync(categoryId))
       }
   }
 }

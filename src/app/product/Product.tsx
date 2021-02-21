@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-
-import { connect } from 'react-redux';
+import NumberFormat from 'react-number-format';
 
 function Product(props: any) {
 
@@ -11,32 +10,17 @@ function Product(props: any) {
     }, []);
 
     return (
-        <Card style={{ width: '18rem' }}>
-        <Card.Img variant="top" src="holder.js/100px180" />
+        <Card className="mt-4" style={{ width: '20rem' }}>
+        <Card.Img variant="top" src={props.product.imageUrl} />
         <Card.Body>
-            <Card.Title>Card Title</Card.Title>
+            <Card.Title>{props.product.name}</Card.Title>
             <Card.Text>
-            Some quick example text to build on the card title and make up the bulk of
-            the card's content.
+            <NumberFormat value={props.product.price} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'$'} />
             </Card.Text>
-            <Button variant="primary">Add To Cart</Button>
+            <Button variant="secondary">Add To Cart</Button>
         </Card.Body>
         </Card>
     );
 }
 
-const mapStateToProps = (state: any) => {
-    return {
-        user: state.user
-    }
-}
-
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-        loginUser: (loginModel: any, history: any) => {
-            //dispatch(loginAsync(loginModel, history))
-        }
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Product)
+export default Product

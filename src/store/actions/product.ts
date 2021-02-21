@@ -7,12 +7,12 @@ export const getProducts = () => {
     }
 }
 
-export const getProductsAsync = () => {
+export const getProductsAsync = (categoryId: number) => {
     return async (dispatch: any) => {
         try {
             dispatch(getProducts());
 
-            const response = await new ProductService().getAllAsync();
+            const response = await new ProductService().getProductsByCategoryAsync(categoryId);
 
             dispatch(getProductsSuccess(response));
         } catch (error) {
